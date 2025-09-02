@@ -4,14 +4,13 @@ import { config } from "../config.js";
 export const validateAuthToken = (allowedUserTypes = []) => {
   return (req, res, next) => {
     try {
-      //1- Extraer el token de las cookies
-      const { authToken } = req.cookies;
       //1- Validar si existen las cookies
-      if (!authToken) {
+      if (!req.cookies || !req.cookies.authToken) {
         return res.json({
           message: "No auth Cookie found, authorization required",
         });
       }
+      const { authToken } = req.cookies;
 
       //2- Extraer el token de las cookies
       //   const {authToken} = req.cookies;

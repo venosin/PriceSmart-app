@@ -33,8 +33,20 @@ loginController.login = async (req, res) => {
       email === config.emailAdmin.email &&
       password === config.emailAdmin.password
     ) {
-      userType = "Admin";
+      userType = "admin";
       userFound = { _id: "Admin" };
+      // Generar token para admin y terminar flujo aquí
+      const token = jsonwebtoken.sign(
+        { id: userFound._id, userType },
+        config.JWT.secret,
+        { expiresIn: config.JWT.expiresIn }
+      );
+      res.cookie("authToken", token, {
+        maxAge: 24 * 60 * 60 * 1000,
+        path: "/",
+        sameSite: "lax",
+      });
+      return res.json({ message: "login successful" });
     } else {
       // 2. Empleado
       userFound = await EmployeesModel.findOne({ email });
@@ -89,7 +101,7 @@ loginController.login = async (req, res) => {
     }
 
     // Generar token
-    jsonwebtoken.sign(
+    const token = jsonwebtoken.sign(
       //1- Que voy a guardar
       { id: userFound._id, userType },
       //2- Clave secreta

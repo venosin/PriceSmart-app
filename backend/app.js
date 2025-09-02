@@ -18,7 +18,10 @@ import salesRoutes from "./src/routes/sales.js";
 // Creo una constante que es igual a la libreria que importé
 const app = express();
 
-// Que acepte cookies
+// Middleware para parsear JSON en el body
+app.use(express.json());
+
+// Middleware para parsear cookies
 app.use(cookieParser());
 
 // Definir las rutas de las funciones que tendrá la página web
@@ -27,7 +30,6 @@ app.use("/api/customers", customersRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/branches", branchesRoutes);
 app.use("/api/reviews", reviewsRoutes);
-b;
 
 app.use("/api/registerEmployees", registerEmployeesRoutes);
 app.use("/api/login", loginRoutes);

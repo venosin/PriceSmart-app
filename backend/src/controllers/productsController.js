@@ -10,8 +10,8 @@ productsController.getProducts = async (req, res) => {
 
 // INSERT
 productsController.createProducts = async (req, res) => {
-  const { name, description, price } = req.body;
-  const newProduct = new productsModel({ name, description, price});
+  const { name, description, price, stock } = req.body;
+  const newProduct = new productsModel({ name, description, price, stock });
   await newProduct.save();
   res.json({ message: "product saved" });
 };
